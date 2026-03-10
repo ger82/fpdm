@@ -44,7 +44,7 @@
 		*
 		*@internal same as bin2hex
 		*@access public
-		*@internal  dechex(ord($str{$i})); is buggy because for hex value of 0-15 heading 0 is missing! Using sprintf() to get it right.
+		*@internal  dechex(ord($str[$i])); is buggy because for hex value of 0-15 heading 0 is missing! Using sprintf() to get it right.
 		*@param string $str a binary string
 		*@return string hex the hexified string
 		**/

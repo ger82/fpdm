@@ -8,16 +8,15 @@
 	*@package fpdftk
 	*@date    2010-12-06                                                         
 	*@author  0livier    
-	*@version 2.0
+	*@version 2.1
 	*@note 
+	*	V2.1 (12/15/2021) Get temp directory dynamically using "sys_get_temp_dir()"
 	*	V2.0 '06.12.2010) Add security support , first public release.
 	* 	V1.0 (05.12.2010) First working release
 	******************************************************************/
 
 	if (!defined('URL_TOOLBOX')) die("Requires the URL_TOOLBOX package!");
-		
-	define("PHP5_ENGINE",version_compare(phpversion(), "5"));
- 
+
 	//!NOTE try to detect your OS
 	
 	function is_windows(){
@@ -83,7 +82,7 @@
 		$output_modes=$settings['output_modes'];
 		$security=$settings['security'];
 		
-		$cwd = '/tmp';
+		$cwd = sys_get_temp_dir();
 		$env = array('misc_options' => 'aeiou');
 		$err='';
 		$success=0;
@@ -104,22 +103,11 @@
 
 			//echo htmlentities("$cmdline , $descriptorspec, $cwd, $env");
 
-			if(PHP5_ENGINE) { // Php5
-				$process = proc_open($cmdline, $descriptorspec, $pipes, $cwd, $env);
-			}else { //Php4
-				$process = proc_open($cmdline, $descriptorspec, $pipes);
-			}
+			$process = proc_open($cmdline, $descriptorspec, $pipes, $cwd, $env);
 
 			if (is_resource($process)) {
 
-				if(PHP5_ENGINE) { 
-					$err=stream_get_contents($pipes[2]);
-				}else { //Php4
-					$err= "";
-					while (($str = fgets($pipes[2], 4096))) {
-						$err.= "$str\n";
-					}
-				}
+				$err=stream_get_contents($pipes[2]);
 
 				fclose($pipes[2]);
 				

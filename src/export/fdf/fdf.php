@@ -90,7 +90,7 @@
 				$fdf_file=$output_mode;
 				$fdf_dir=dirname($fdf_file);
 				
-				//Parano�d access mode with syslog in background as watchdog for errors
+				//Paranoid access mode with syslog in background as watchdog for errors
 				if(file_exists($fdf_dir)) {
 					if(is_writable($fdf_dir)) {
 						if(!is_writable($fdf_file)&&false) { //Create
